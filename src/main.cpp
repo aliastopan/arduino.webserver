@@ -35,6 +35,11 @@ void flashSystem(const char* _file)
 
 }
 
+String processor(const String& var)
+{
+	Serial.println(var);
+	return String();
+}
  
 void setup()
 {
@@ -43,13 +48,19 @@ void setup()
 
 	// Connect to Wi-Fi
   	WiFi.begin(ssid, password);
-  	while (WiFi.status() != WL_CONNECTED) 
+  	while (WiFi.status() != WL_CONNECTED)
 	{
     	delay(1000);
     	Serial.println("Connecting to WiFi..");
   	}
 
   	Serial.println(WiFi.localIP());
+
+	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+		request->send(LittleFS, "index.html");
+	});
+
+	server.begin();
 }
 
 void loop()

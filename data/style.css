@@ -3,11 +3,19 @@
 }
 
 body{
-    padding: 0;
+    padding: 0.5rem;
     margin: 0;
 }
 
 ._container{
     padding: 1rem;
-    font-style: italic;
+    display: flex;
+    flex-direction: column;
+}
+
+._button{
+    border: none;
+    width: 5rem;
+    padding: 0.5rem;
+    margin: 0.25rem;
 }

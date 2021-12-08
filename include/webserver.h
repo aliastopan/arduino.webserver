@@ -9,19 +9,25 @@ const int port = 80;
 
 AsyncWebServer server(port);
 
+String processor(const String& var)
+{
+	Serial.println(var);
+	return String();
+}
+
 class WebServer
 {
     public:
-    static void Setup(Stream &serialstream)
+    static void Setup()
     {
         WiFi.begin(ssid, password);
   	    while (WiFi.status() != WL_CONNECTED)
 	    {
     	    delay(1000);
-    	    serialstream.println("Connecting to WiFi...");
+    	    Serial.println("Connecting to WiFi...");
   	    }
 
-  	    serialstream.println(WiFi.localIP());
+  	    Serial.println(WiFi.localIP());
     }
 
     static void Start()
@@ -39,6 +45,16 @@ class WebServer
 	    server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
   		    request->send(LittleFS, "/style.css","text/css");
 	    });
+
+        server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
+            digitalWrite(LED_BUILTIN, LOW);
+            request->send(LittleFS, "/index.html", String());
+        });
+        
+        server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request){
+            digitalWrite(LED_BUILTIN, HIGH);
+            request->send(LittleFS, "/index.html", String());
+        });
 
 	    server.begin();
     }

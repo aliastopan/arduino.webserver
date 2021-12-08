@@ -1,16 +1,8 @@
 #include <Arduino.h>
 #include <LittleFS.h>
-#include <ESP8266WiFi.h>
-#include <ESPAsyncTCP.h>
-#include <ESPAsyncWebServer.h>
+
 
 #include "_server.h"
-
-// const char* ssid = "Wifi@Home";
-// const char* password = "02062000";
-// const int port = 80;
-
-AsyncWebServer server(port);
 
 void flashSystem(const char* _file)
 {
@@ -59,7 +51,11 @@ void setup()
   	Serial.println(WiFi.localIP());
 
 	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-		request->send(LittleFS, "index.html");
+		request->send(LittleFS, "index.html", String());
+	});
+
+	server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
+  		request->send(LittleFS, "/style.css","text/css");
 	});
 
 	server.begin();

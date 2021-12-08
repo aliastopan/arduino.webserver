@@ -1,8 +1,7 @@
 #include <Arduino.h>
-#include <LittleFS.h>
+#include "webserver.h"
 
 
-#include "_server.h"
 
 void flashSystem(const char* _file)
 {
@@ -38,27 +37,28 @@ String processor(const String& var)
 void setup()
 {
 	Serial.begin(115200);
-	flashSystem("/sample.txt");
+	// flashSystem("sample.txt");
 
-	// Connect to Wi-Fi
-  	WiFi.begin(ssid, password);
-  	while (WiFi.status() != WL_CONNECTED)
-	{
-    	delay(1000);
-    	Serial.println("Connecting to WiFi..");
-  	}
+	WebServer::Setup(Serial);
+	WebServer::Start();
+  	// WiFi.begin(ssid, password);
+  	// while (WiFi.status() != WL_CONNECTED)
+	// {
+    // 	delay(1000);
+    // 	Serial.println("Connecting to WiFi..");
+  	// }
 
-  	Serial.println(WiFi.localIP());
+  	// Serial.println(WiFi.localIP());
 
-	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-		request->send(LittleFS, "index.html", String());
-	});
+// 	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+// 		request->send(LittleFS, "/index.html", String());
+// 	});
 
-	server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
-  		request->send(LittleFS, "/style.css","text/css");
-	});
+// 	server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
+//   		request->send(LittleFS, "/style.css","text/css");
+// 	});
 
-	server.begin();
+// 	server.begin();
 }
 
 void loop()

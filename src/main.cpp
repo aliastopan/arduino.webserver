@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include "webserver.h"
- 
 
 void setup()
 {
@@ -10,6 +9,7 @@ void setup()
 	WebServer::Start();
 
 	pinMode(LED_BUILTIN, OUTPUT);
+	digitalWrite(LED_BUILTIN, HIGH);
 
 }
 

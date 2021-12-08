@@ -1,3 +1,6 @@
+#ifndef WEBSERVER
+#define WEBSERVER
+
 #include <LittleFS.h>
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
@@ -50,7 +53,7 @@ class WebServer
             digitalWrite(LED_BUILTIN, LOW);
             request->send(LittleFS, "/index.html", String());
         });
-        
+
         server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request){
             digitalWrite(LED_BUILTIN, HIGH);
             request->send(LittleFS, "/index.html", String());
@@ -59,3 +62,5 @@ class WebServer
 	    server.begin();
     }
 };
+
+#endif
